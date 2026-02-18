@@ -12,10 +12,10 @@ source("/Users/mattmettler/Box Sync/Data_2024/EV/w2_data.R")
 
 # --- workflow as follows ---
 # 1. fit model for difference of Biden and Trump economic perceptions, soc_bt= -1 to 1
-# 2. Create simulation where respondents are "near fully accurate on economic facts"
+# 2. Create simulation where respondents are "not partisan biased on economic facts"
 # 3. Predict Soc_bt based on simulation
 # 4. fit voting logit model with empirical soc_bt then fit with simulated soc_bt
-# 5. Plot empirical vs simulation of "fully informed"
+# 5. Plot empirical vs simulation of "no partisan bias"
 
 ########
 # 1.   
@@ -41,17 +41,19 @@ econ_acc = pmin(pmax(df$econ_acc, target_acc), 0.95)
 
 df_cf <- df %>%
   mutate(
-    err = 1 - econ_acc,
-    w_p = ifelse(err > 0, econ_ptbias / err, 0),
-    w_r = ifelse(err > 0, econ_resid  / err, 1),
+    # cap the target 
+    target_acc_cap = pmin(target_acc, 0.95),
     
-    # raise accuracy up to target_acc (do not lower those already above)
-    # accuracy rests between 95% and 100% quantile. Errors are recomputed 
-    # with respondents original weighting
-    econ_acc = pmin(pmax(econ_acc, target_acc), 0.95),
+    # 
+    delta_acc_desired = pmax(0, target_acc_cap - econ_acc),
     
-    econ_ptbias = (1 - econ_acc) * w_p,
-    econ_resid  = (1 - econ_acc) * w_r
+    # feasible increase limited by available ptbias mass
+    delta_acc = pmin(delta_acc_desired, econ_ptbias),
+    
+    # counterfactual components
+    econ_acc    = econ_acc + delta_acc,
+    econ_ptbias = econ_ptbias - delta_acc,
+    econ_resid  = econ_resid
   )
 
 ########
@@ -116,9 +118,9 @@ w2_v%>%
   group_by(pidf)%>%
   summarize(
     Empirical=mean(soc_bt,na.rm=TRUE),
-    `Fully informed`=mean(soc_bt_pred_fi,na.rm=TRUE))%>%
+    `No partisan bias`=mean(soc_bt_pred_fi,na.rm=TRUE))%>%
   ungroup()%>%
-  pivot_longer(cols = c(Empirical, `Fully informed`), names_to = "category", values_to = "mean_value")%>%
+  pivot_longer(cols = c(Empirical, `No partisan bias`), names_to = "category", values_to = "mean_value")%>%
   ggplot(., aes(x = factor(pidf,levels = c("Strong Democrat","Moderate Democrat","Lean Democrat","Independent","Lean Republican","Moderate Republican","Strong Republican")), y = mean_value, group = category,fill=category))+
   geom_bar(stat = "identity", position = position_dodge(width = 1)) +
   geom_text(aes(label = round(mean_value, 2), 
