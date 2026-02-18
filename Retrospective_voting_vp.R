@@ -31,23 +31,19 @@ summary(lm_soc)
 # predict fully informed i.e. no residual and partisan response
 target_acc <- as.numeric(quantile(df$econ_acc, 0.95, na.rm = TRUE))
 # keep away from the boundary to avoid extreme ILR instability
-target_acc <- min(target_acc, 0.95)
+econ_acc = pmin(pmax(df$econ_acc, target_acc), 0.95)
 
 df_cf <- df %>%
   mutate(
-    # total error mass
     err = 1 - econ_acc,
-    
-    # weights of ptbias vs resid within error (if err=0, define weights safely)
     w_p = ifelse(err > 0, econ_ptbias / err, 0),
     w_r = ifelse(err > 0, econ_resid  / err, 1),
     
-    # apply shift: raise accuracy up to target_acc
-    econ_acc_cf = pmin(target_acc, 0.95),
+    # raise accuracy up to target_acc (do not lower those already above)
+    econ_acc = pmin(pmax(econ_acc, target_acc), 0.95),
     
-    # reallocate remaining error mass using original mix
-    econ_ptbias = (1 - econ_acc_cf) * w_p,
-    econ_resid  = (1 - econ_acc_cf) * w_r
+    econ_ptbias = (1 - econ_acc) * w_p,
+    econ_resid  = (1 - econ_acc) * w_r
   )
 
 db1 <- data.frame(caseid = df$caseid, pv<-predict(lm_soc, newdata = df_cf))
@@ -121,3 +117,5 @@ w2_v%>%
        fill="Perception type")+
   theme_minimal()+
   theme(plot.title = element_text(hjust = 0.5))
+
+
