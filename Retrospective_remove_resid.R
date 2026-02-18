@@ -1,0 +1,136 @@
+rm(list=ls())
+
+library(haven)
+library(tidyverse)
+library(nnet)
+library(stargazer)
+library(estimatr)
+library(zCompositions)
+library(compositions)
+
+source("/Users/mattmettler/Box Sync/Data_2024/EV/w2_data.R")
+
+# --- workflow as follows ---
+# 1. fit model for difference of Biden and Trump economic perceptions, soc_bt= -1 to 1
+# 2. Create simulation where respondents are "near fully accurate on economic facts"
+# 3. Predict Soc_bt based on simulation
+# 4. fit voting logit model with empirical soc_bt then fit with simulated soc_bt
+# 5. Plot empirical vs simulation of "fully informed"
+
+########
+# 1.   
+########
+#w2<-w2[w2$VOTE2_w2<3& w2$pidf!="8",] # subset to only those voting for Biden or Trump
+
+df<-w2
+
+lm_soc <- lm(
+  soc_bt ~ (econ_ptbias+econ_resid) * pidf + age + female + black + hispanic,
+  data = df
+)
+summary(lm_soc)
+
+
+########
+# 2.   
+########
+
+target_acc <- as.numeric(quantile(df$econ_acc, 0.95, na.rm = TRUE))
+# keep away from the boundary to avoid
+#econ_acc = pmin(pmax(df$econ_acc, target_acc), 0.95)
+
+df_cf <- df %>%
+  mutate(
+    # cap the target 
+    target_acc_cap = pmin(target_acc, 0.95),
+    
+    # 
+    delta_acc_desired = pmax(0, target_acc_cap - econ_acc),
+    
+    # feasible increase limited by available ptbias mass
+    delta_acc = pmin(delta_acc_desired, econ_resid),
+    
+    # counterfactual components
+    econ_acc    = econ_acc + delta_acc,
+    econ_ptbias = econ_ptbias ,
+    econ_resid  = econ_resid- delta_acc
+  )
+
+########
+# 3.   
+########
+
+db1 <- data.frame(caseid = df$caseid, pv<-predict(lm_soc, newdata = df_cf))
+
+colnames(db1)<-c("caseid","soc_bt_pred_fi")
+
+df <- df %>%
+  left_join(db1, by = "caseid")
+
+########
+# 4.   
+########
+w2_v <- df[df$VOTE2_w2 < 3 & df$pidf != "8", ]
+
+w2_v$vbiden <- ifelse(w2_v$VOTE2_w2 == 1, 1, 0)
+
+x0 <- glm(
+  vbiden ~ soc_bt*pidf + age + black + hispanic + female + pkprop + analyprop + currprop+educ,
+  family = binomial,
+  data = w2_v
+)
+summary(x0)
+
+# baseline predicted probability
+w2_v$reg <- predict(x0, type = "response", newdata = w2_v)
+
+# counterfactual probability: replace soc_bt with predicted counterfactual soc_bt
+w2_v_cf <- w2_v
+w2_v_cf$soc_bt <- w2_v_cf$soc_bt_pred_fi
+w2_v$nobias_fi <- predict(x0, type = "response", newdata = w2_v_cf)
+
+# optional: threshold classification (secondary)
+w2_v$b_vote_reg       <- ifelse(w2_v$reg >= .5, "Biden", "Trump")
+w2_v$b_vote_nobias_fi  <- ifelse(w2_v$nobias_fi >= .5, "Biden", "Trump")
+
+table(w2_v$b_vote_reg)
+table(w2_v$b_vote_nobias_fi)
+
+# preferred: expected vote share change (mean probabilities)
+mean(w2_v$reg, na.rm = TRUE)
+mean(w2_v$nobias_fi, na.rm = TRUE)
+mean(w2_v$nobias_fi, na.rm = TRUE) - mean(w2_v$reg, na.rm = TRUE)
+
+########
+# 5.   
+########
+w2_v%>%
+  dplyr::select(pidf,soc_bt,soc_bt_pred_fi)%>%
+  filter(pidf!=8)%>%
+  mutate(pidf=case_when(pidf==1 ~"Strong Democrat",
+                        pidf==2 ~"Moderate Democrat",
+                        pidf==3 ~"Lean Democrat",
+                        pidf==4 ~"Independent",
+                        pidf==5 ~"Lean Republican",
+                        pidf==6 ~"Moderate Republican",
+                        pidf==7 ~"Strong Republican"
+  ))%>%
+  group_by(pidf)%>%
+  summarize(
+    Empirical=mean(soc_bt,na.rm=TRUE),
+    `No residual error`=mean(soc_bt_pred_fi,na.rm=TRUE))%>%
+  ungroup()%>%
+  pivot_longer(cols = c(Empirical, `No residual error`), names_to = "category", values_to = "mean_value")%>%
+  ggplot(., aes(x = factor(pidf,levels = c("Strong Democrat","Moderate Democrat","Lean Democrat","Independent","Lean Republican","Moderate Republican","Strong Republican")), y = mean_value, group = category,fill=category))+
+  geom_bar(stat = "identity", position = position_dodge(width = 1)) +
+  geom_text(aes(label = round(mean_value, 2), 
+                vjust = ifelse(mean_value < 0, 1.5, -0.5)),  # Adjust label placement
+            position = position_dodge(0.9)) +    
+  labs(title = "Change in economic perception",
+       x = "",
+       y = "",
+       fill="Perception type")+
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5))
+
+
