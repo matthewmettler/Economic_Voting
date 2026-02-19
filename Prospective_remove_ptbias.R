@@ -1,31 +1,20 @@
-rm(list=ls())
-
 library(haven)
 library(tidyverse)
 library(nnet)
 library(stargazer)
-library(estimatr)
-library(zCompositions)
-library(compositions)
+rm(list=ls())
 
-source("/Users/mattmettler/Box Sync/Data_2024/EV/w2_data.R")
+source("/Users/mattmettler/Box Sync/Data_2024/EV/w3_data.R")
 
-# --- workflow as follows ---
-# 1. fit model for difference of Biden and Trump economic perceptions, soc_bt= -1 to 1
-# 2. Create simulation where respondents are "not partisan biased on economic facts"
-# 3. Predict Soc_bt based on simulation
-# 4. fit voting logit model with empirical soc_bt then fit with simulated soc_bt
-# 5. Plot empirical vs simulation of "no partisan bias"
-
-########
-# 1.   
-########
 #w2<-w2[w2$VOTE2_w2<3& w2$pidf!="8",] # subset to only those voting for Biden or Trump
 
-df<-w2
+df<-w3
+
+
+
 
 lm_soc <- lm(
-  soc_bt ~ (econ_ptbias+econ_resid) * pidf + age + female + black + hispanic,
+  soc_ht ~ (w3_econ_ptbias+w3_econ_resid) * pidf + age + female + black + hispanic,
   data = df
 )
 summary(lm_soc)
@@ -35,9 +24,13 @@ summary(lm_soc)
 # 2.   
 ########
 
-target_acc <- as.numeric(quantile(df$econ_acc, 0.95, na.rm = TRUE))
+
+
+# 95th percentile target (a floor)
+
+target_acc <- as.numeric(quantile(df$w3_econ_acc, 0.95, na.rm = TRUE))
 # keep away from the boundary to avoid
-econ_acc = pmin(pmax(df$econ_acc, target_acc), 0.95)
+w3_econ_acc = pmin(pmax(df$w3_econ_acc, target_acc), 0.95)
 
 df_cf <- df %>%
   mutate(
@@ -45,67 +38,67 @@ df_cf <- df %>%
     target_acc_cap = pmin(target_acc, 0.95),
     
     # 
-    delta_acc_desired = pmax(0, target_acc_cap - econ_acc),
+    delta_acc_desired = pmax(0, target_acc_cap - w3_econ_acc),
     
     # feasible increase limited by available ptbias mass
-    delta_acc = pmin(delta_acc_desired, econ_ptbias),
+    delta_acc = pmin(delta_acc_desired, w3_econ_ptbias),
     
     # counterfactual components
-    econ_acc    = econ_acc + delta_acc,
-    econ_ptbias = econ_ptbias - delta_acc,
-    econ_resid  = econ_resid
+    w3_econ_acc    = w3_econ_acc + delta_acc,
+    w3_econ_ptbias = w3_econ_ptbias - delta_acc,
+    w3_econ_resid  = w3_econ_resid
   )
+
 
 ########
 # 3.   
 ########
 
-db1 <- data.frame(caseid = df$caseid, pv<-predict(lm_soc, newdata = df_cf))
+db1 <- tibble::tibble(
+  caseid = df$caseid,
+  soc_ht_pred_fi = predict(lm_soc, newdata = df_cf)
+)
 
-colnames(db1)<-c("caseid","soc_bt_pred_fi")
-
-df <- df %>%
-  left_join(db1, by = "caseid")
-
+df <- df %>% left_join(db1, by = "caseid")
 ########
 # 4.   
 ########
-w2_v <- df[df$VOTE2_w2 < 3 & df$pidf != "8", ]
+w3_v<-df[df$TWVOTE2_w3<3& df$pidf!="8",]
 
-w2_v$vbiden <- ifelse(w2_v$VOTE2_w2 == 1, 1, 0)
+w3_v$vharris <- ifelse(w3_v$TWVOTE2_w3 == 1, 1, 0)
 
 x0 <- glm(
-  vbiden ~ soc_bt*pidf + age + black + hispanic + female + pkprop + analyprop + currprop+educ,
+  vharris ~ soc_ht*pidf + age + black + hispanic + female + pkprop + analyprop + currprop+educ,
   family = binomial,
-  data = w2_v
+  data = w3_v
 )
 summary(x0)
 
 # baseline predicted probability
-w2_v$reg <- predict(x0, type = "response", newdata = w2_v)
+w3_v$reg <- predict(x0, type = "response", newdata = w3_v)
 
 # counterfactual probability: replace soc_bt with predicted counterfactual soc_bt
-w2_v_cf <- w2_v
-w2_v_cf$soc_bt <- w2_v_cf$soc_bt_pred_fi
-w2_v$nobias_fi <- predict(x0, type = "response", newdata = w2_v_cf)
+w3_v_cf <- w3_v
+w3_v_cf$soc_ht <- w3_v_cf$soc_ht_pred_fi
+w3_v$nobias_fi <- predict(x0, type = "response", newdata = w3_v_cf)
 
 # optional: threshold classification (secondary)
-w2_v$b_vote_reg       <- ifelse(w2_v$reg >= .5, "Biden", "Trump")
-w2_v$b_vote_nobias_fi  <- ifelse(w2_v$nobias_fi >= .5, "Biden", "Trump")
+w3_v$b_vote_reg       <- ifelse(w3_v$reg >= .5, "Harris", "Trump")
+w3_v$b_vote_nobias_fi  <- ifelse(w3_v$nobias_fi >= .5, "Harris", "Trump")
 
-table(w2_v$b_vote_reg)
-table(w2_v$b_vote_nobias_fi)
+table(w3_v$b_vote_reg)
+table(w3_v$b_vote_nobias_fi)
 
 # preferred: expected vote share change (mean probabilities)
-mean(w2_v$reg, na.rm = TRUE)
-mean(w2_v$nobias_fi, na.rm = TRUE)
-mean(w2_v$nobias_fi, na.rm = TRUE) - mean(w2_v$reg, na.rm = TRUE)
+mean(w3_v$reg, na.rm = TRUE)
+mean(w3_v$nobias_fi, na.rm = TRUE)
+mean(w3_v$nobias_fi, na.rm = TRUE) - mean(w3_v$reg, na.rm = TRUE)
 
 ########
 # 5.   
 ########
-w2_v%>%
-  dplyr::select(pidf,soc_bt,soc_bt_pred_fi)%>%
+w3_v%>%
+  dplyr::select(pidf,soc_ht,soc_ht_pred_fi)%>%
   filter(pidf!=8)%>%
   mutate(pidf=case_when(pidf==1 ~"Strong Democrat",
                         pidf==2 ~"Moderate Democrat",
@@ -117,8 +110,8 @@ w2_v%>%
   ))%>%
   group_by(pidf)%>%
   summarize(
-    Empirical=mean(soc_bt,na.rm=TRUE),
-    `No partisan error`=mean(soc_bt_pred_fi,na.rm=TRUE))%>%
+    Empirical=mean(soc_ht,na.rm=TRUE),
+    `No partisan error`=mean(soc_ht_pred_fi,na.rm=TRUE))%>%
   ungroup()%>%
   pivot_longer(cols = c(Empirical, `No partisan error`), names_to = "category", values_to = "mean_value")%>%
   ggplot(., aes(x = factor(pidf,levels = c("Strong Democrat","Moderate Democrat","Lean Democrat","Independent","Lean Republican","Moderate Republican","Strong Republican")), y = mean_value, group = category,fill=category))+
@@ -132,5 +125,6 @@ w2_v%>%
        fill="Perception type")+
   theme_minimal()+
   theme(plot.title = element_text(hjust = 0.5))
+
 
 
