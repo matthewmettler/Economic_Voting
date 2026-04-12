@@ -1,0 +1,808 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{makecell}
+\usepackage{setspace}
+\usepackage[margin=1in]{geometry}
+\usepackage{blindtext}
+
+
+\title{Appendix}
+\date{}
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+\listoftables
+\listoffigures
+\newpage
+
+
+\section{Survey Questions}
+
+
+
+\subsection{Affective polarization feeling thermometers}
+\begin{enumerate}
+
+\item Former president Donald Trump
+
+\item President Joe Biden
+
+\item Republicans in Congress
+
+\item Democrats in Congress
+
+\end{enumerate}
+
+\subsection{Current events knowledge}
+\begin{enumerate}
+\item  Which of the following individuals died in
+November 2018?
+\item In February 2019, what well-known figure was
+charged by Florida authorities with two counts of
+soliciting prostitution?
+\item In February 2019, what South American nation
+faced a series of crises, including two people
+both claiming to be president, massive shortages
+of food and other basic goods, and an extremely
+high inflation rate?
+\item In February 2019, NASA announced that who or what
+had died?
+\item The television show Sesame Street introduced what
+character in December 2018?
+\item In February 2019, Amazon announced it was
+canceling its plan to develop a large second
+headquarters, HQ2, in what city?
+\item In December 2018, what drug was identified as the
+leading cause of drug overdoses?
+\item What actor was arrested by Chicago police in
+February of 2019 on charges that he had filed a
+false police report?
+\item The Rock \& Roll Hall of Fame Class of 2019
+includes
+\item In January 2019, who withdrew as host of the
+Academy Awards following bad publicity involving
+some old Tweets that some people found to be
+offensive?
+\end{enumerate}
+
+
+
+
+
+<<echo=FALSE,fig >>=
+opts_chunk$set(echo=FALSE,
+               message=FALSE,
+               warning=FALSE,
+               results = 'asis')
+@
+
+
+<<wave2>>=
+library(dplyr)
+library(tidyverse)
+library(psych)
+library(tibble)
+library(flextable)
+library(dplyr)
+library(tibble)
+library(purrr)
+library(ggplot2)
+library(scales)
+library(knitr)
+library(kableExtra)
+library(xtable)
+library(survey)
+
+source("/Users/mattmettler/Box Sync/Data_2024/EV/w3_data.R")
+df0 <- w2 %>%
+  mutate(
+    pidf = case_when(
+      pidf %in% c("5", "6", "7") ~ "Rep",
+      pidf %in% c("1", "2", "3") ~ "Dem",
+      pidf %in% c("4")           ~ "Ind",
+      #pidf == "8"                ~ "Other",
+      TRUE                       ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(weight_w2), weight_w2 > 0)
+
+# first-stage complete-case sample
+df_soc <- df0 %>%
+  filter(
+    complete.cases(
+      soc_bt, pidf, econ_ptbias, econ_resid,
+      age, black, hispanic, female, weight_w2
+    )
+  )
+
+des_w2_full <- survey::svydesign(
+  ids = ~1,
+  weights = ~weight_w2,
+  data = df_soc
+)
+
+lm_soc <- survey::svyglm(
+  soc_bt ~ pidf * (econ_ptbias + econ_resid) + age + black + hispanic + female,
+  design = des_w2_full
+)
+
+lm_socD <- survey::svyglm(
+  soc_bt ~ pidf * (PRB_D + RR_D) + age + black + hispanic + female,
+  design = des_w2_full
+)
+
+# vote model complete-case sample
+df_vote <- df_soc %>%
+  filter(
+    VOTE2_w2 < 3,
+    complete.cases(vbiden, soc_bt, pidf, age, black, hispanic, female, weight_w2)
+  )
+
+des_w2_vote <- survey::svydesign(
+  ids = ~1,
+  weights = ~weight_w2,
+  data = df_vote
+)
+
+x0 <- survey::svyglm(
+  vbiden ~ soc_bt * pidf + age + black + hispanic + female,
+  design = des_w2_vote,
+  family = quasibinomial()
+)
+
+
+
+@
+
+<<wave3>>=
+df1 <- w3 %>%
+  mutate(
+    pidf = case_when(
+      pidf %in% c("5", "6", "7") ~ "Rep",
+      pidf %in% c("1", "2", "3") ~ "Dem",
+      pidf == c("4")              ~ "Ind",
+      #pidf == "8"                ~ "oth",
+      TRUE                       ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(weight_w3), weight_w3 > 0)
+
+# first-stage complete-case sample
+df_soc1 <- df1 %>%
+  filter(
+    complete.cases(
+      soc_bt, pidf, econ_ptbias, econ_resid,
+      age, black, hispanic, female, weight_w3
+    )
+  )
+
+# vote sample
+df_vote1 <- df_soc1 %>%
+  filter(TWVOTE2_w3 < 3) %>%
+  mutate(
+    vharris = ifelse(TWVOTE2_w3 == 1, 1, 0),
+  ) %>%
+  filter(
+    complete.cases(
+      vharris, soc_bt, pidf,
+      age, black, hispanic, female, weight_w3
+    )
+  )
+
+df_vote1 <-df_vote1 %>%
+  mutate(
+    weight_w3 = weight_w3 / mean(weight_w3, na.rm = TRUE))
+
+# -------------------------
+# 2) Survey-weighted models
+# -------------------------
+des_soc1 <- survey::svydesign(
+  ids = ~1,
+  weights = ~weight_w3,
+  data = df_soc1
+)
+
+m_soc <- survey::svyglm(
+  soc_bt ~ pidf * (econ_ptbias + econ_resid) + age + black + hispanic + female,
+  design = des_soc1
+)
+
+m_socD <- survey::svyglm(
+  soc_bt ~ pidf * (PRB_D + RR_D) + age + black + hispanic + female,
+  design = des_soc1
+)
+
+des_vote1 <- survey::svydesign(
+  ids = ~1,
+  weights = ~weight_w3,
+  data = df_vote1
+)
+
+m_vote <- survey::svyglm(
+  vharris ~ soc_bt * pidf + age + black + hispanic + female,
+  design = des_vote1,
+  family = quasibinomial())
+
+@
+
+
+
+\section{Descriptive Statistics}
+<<>>=
+# overall table
+tab_all <- df_soc %>%
+  dplyr::select(soc_bt, econ_ptbias, econ_resid,PRB_D,RR_D, age, black, hispanic, female) %>%
+  psych::describe(fast = TRUE) %>%
+  tibble::rownames_to_column("Variable") %>%
+  dplyr::select(Variable, mean, sd, min, max) %>%
+  mutate(
+    Variable = recode(
+      Variable,
+      soc_bt = "Sociotropic Perception",
+      econ_ptbias = "Partisan Response Bias",
+      econ_resid = "Residual Response",
+      PRB_D = "Partisan response bias (Discrete)",
+      RR_D = "Residual response (Discrete)",
+      age = "Age",
+      black = "Black",
+      hispanic = "Hispanic",
+      female = "Female"
+    )
+  ) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+# independents only
+tab_ind <- df_soc %>%
+  filter(pidf == "Ind") %>%
+  dplyr::select(soc_bt, econ_ptbias, econ_resid,PRB_D,RR_D, age, black, hispanic, female) %>%
+  psych::describe(fast = TRUE) %>%
+  tibble::rownames_to_column("Variable") %>%
+  dplyr::select(Variable, mean, sd, min, max) %>%
+  mutate(
+    Variable = recode(
+      Variable,
+      soc_bt = "Sociotropic Perception",
+      econ_ptbias = "Partisan Response Bias",
+      econ_resid = "Residual Response",
+      PRB_D = "Partisan response bias (Discrete)",
+      RR_D = "Residual response (Discrete)",
+      age = "Age",
+      black = "Black",
+      hispanic = "Hispanic",
+      female = "Female"
+    )
+  ) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+
+
+# Republicans only
+tab_rep <- df_soc %>%
+  filter(pidf == "Rep") %>%
+  dplyr::select(soc_bt, econ_ptbias, econ_resid,PRB_D,RR_D, age, black, hispanic, female) %>%
+  psych::describe(fast = TRUE) %>%
+  tibble::rownames_to_column("Variable") %>%
+  dplyr::select(Variable, mean, sd, min, max) %>%
+  mutate(
+    Variable = recode(
+      Variable,
+      soc_bt = "Sociotropic Perception",
+      econ_ptbias = "Partisan Response Bias",
+      econ_resid = "Residual Response",
+      PRB_D = "Partisan response bias (Discrete)",
+      RR_D = "Residual response (Discrete)",
+      age = "Age",
+      black = "Black",
+      hispanic = "Hispanic",
+      female = "Female"
+    )
+  ) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+# Democrats only
+tab_dem <- df_soc %>%
+  filter(pidf == "Dem") %>%
+  dplyr::select(soc_bt, econ_ptbias, econ_resid,PRB_D,RR_D, age, black, hispanic, female) %>%
+  psych::describe(fast = TRUE) %>%
+  tibble::rownames_to_column("Variable") %>%
+  dplyr::select(Variable, mean, sd, min, max) %>%
+  mutate(
+    Variable = recode(
+      Variable,
+      soc_bt = "Sociotropic Perception",
+      econ_ptbias = "Partisan Response Bias",
+      econ_resid = "Residual Response",
+      PRB_D = "Partisan response bias (Discrete)",
+      RR_D = "Residual response (Discrete)",
+      age = "Age",
+      black = "Black",
+      hispanic = "Hispanic",
+      female = "Female"
+    )
+  ) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+
+cat("\\begin{table}[H]\n")
+cat("\\centering\n")
+cat("\\normalsize\n")
+cat("\\caption{Summary Statistics Wave 2}\n")
+cat("\\label{tab:summary_stats}\n")
+# Row 1
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{All Respondents}\\\\[0.5em]\n")
+summary_tab_all <- xtable(tab_all, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_all, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+cat("\\hfill\n")
+
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Democrats}\\\\[0.5em]\n")
+summary_tab_dem <- xtable(tab_dem, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_dem, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+
+cat("\\vspace{2em}\n")
+
+# Row 2
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Republicans}\\\\[0.5em]\n")
+summary_tab_rep <- xtable(tab_rep, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_rep, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+cat("\\hfill\n")
+
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Independents}\\\\[0.5em]\n")
+summary_tab_ind <- xtable(tab_ind, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_ind, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+
+cat("\\end{table}\n")
+
+@
+
+
+<<>>=
+# overall table
+tab_all <- df_soc1 %>%
+  dplyr::select(soc_bt, econ_ptbias, econ_resid,PRB_D,RR_D, age, black, hispanic, female) %>%
+  psych::describe(fast = TRUE) %>%
+  tibble::rownames_to_column("Variable") %>%
+  dplyr::select(Variable, mean, sd, min, max) %>%
+  mutate(
+    Variable = recode(
+      Variable,
+      soc_bt = "Sociotropic Perception",
+      econ_ptbias = "Partisan Response Bias",
+      econ_resid = "Residual Response",
+      PRB_D = "Partisan response bias (Discrete)",
+      RR_D = "Residual response (Discrete)",
+      age = "Age",
+      black = "Black",
+      hispanic = "Hispanic",
+      female = "Female"
+    )
+  ) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+# independents only
+tab_ind <- df_soc1 %>%
+  filter(pidf == "Ind") %>%
+  dplyr::select(soc_bt, econ_ptbias, econ_resid,PRB_D,RR_D, age, black, hispanic, female) %>%
+  psych::describe(fast = TRUE) %>%
+  tibble::rownames_to_column("Variable") %>%
+  dplyr::select(Variable, mean, sd, min, max) %>%
+  mutate(
+    Variable = recode(
+      Variable,
+      soc_bt = "Sociotropic Perception",
+      econ_ptbias = "Partisan Response Bias",
+      econ_resid = "Residual Response",
+      PRB_D = "Partisan response bias (Discrete)",
+      RR_D = "Residual response (Discrete)",
+      age = "Age",
+      black = "Black",
+      hispanic = "Hispanic",
+      female = "Female"
+    )
+  ) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+
+
+# Republicans only
+tab_rep <- df_soc1 %>%
+  filter(pidf == "Rep") %>%
+  dplyr::select(soc_bt, econ_ptbias, econ_resid,PRB_D,RR_D, age, black, hispanic, female) %>%
+  psych::describe(fast = TRUE) %>%
+  tibble::rownames_to_column("Variable") %>%
+  dplyr::select(Variable, mean, sd, min, max) %>%
+  mutate(
+    Variable = recode(
+      Variable,
+      soc_bt = "Sociotropic Perception",
+      econ_ptbias = "Partisan Response Bias",
+      econ_resid = "Residual Response",
+      PRB_D = "Partisan response bias (Discrete)",
+      RR_D = "Residual response (Discrete)",
+      age = "Age",
+      black = "Black",
+      hispanic = "Hispanic",
+      female = "Female"
+    )
+  ) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+# Democrats only
+tab_dem <- df_soc1 %>%
+  filter(pidf == "Dem") %>%
+  dplyr::select(soc_bt, econ_ptbias, econ_resid,PRB_D,RR_D, age, black, hispanic, female) %>%
+  psych::describe(fast = TRUE) %>%
+  tibble::rownames_to_column("Variable") %>%
+  dplyr::select(Variable, mean, sd, min, max) %>%
+  mutate(
+    Variable = recode(
+      Variable,
+      soc_bt = "Sociotropic Perception",
+      econ_ptbias = "Partisan Response Bias",
+      econ_resid = "Residual Response",
+      PRB_D = "Partisan response bias (Discrete)",
+      RR_D = "Residual response (Discrete)",
+      age = "Age",
+      black = "Black",
+      hispanic = "Hispanic",
+      female = "Female"
+    )
+  ) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+
+cat("\\begin{table}[H]\n")
+cat("\\centering\n")
+cat("\\normalsize\n")
+cat("\\caption{Summary Statistics Wave 3}\n")
+cat("\\label{tab:summary_stats}\n")
+# Row 1
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{All Respondents}\\\\[0.5em]\n")
+summary_tab_all <- xtable(tab_all, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_all, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+cat("\\hfill\n")
+
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Democrats}\\\\[0.5em]\n")
+summary_tab_dem <- xtable(tab_dem, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_dem, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+
+cat("\\vspace{2em}\n")
+
+# Row 2
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Republicans}\\\\[0.5em]\n")
+summary_tab_rep <- xtable(tab_rep, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_rep, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+cat("\\hfill\n")
+
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Independents}\\\\[0.5em]\n")
+summary_tab_ind <- xtable(tab_ind, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_ind, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+
+cat("\\end{table}\n")
+
+@
+
+
+<<>>=
+
+
+vars <- c("soc_bt", "econ_ptbias", "econ_resid", "PRB_D", "RR_D",
+          "age", "black", "hispanic", "female")
+
+var_labels <- c(
+  soc_bt      = "Sociotropic Perception",
+  econ_ptbias = "Partisan Response Bias",
+  econ_resid  = "Residual Response",
+  PRB_D       = "Partisan Response Bias (Discrete)",
+  RR_D        = "Residual Response (Discrete)",
+  age         = "Age",
+  black       = "Black",
+  hispanic    = "Hispanic",
+  female      = "Female"
+)
+
+make_weighted_tab <- function(data, vars, weight_var = "weight_w2") {
+  
+  df <- data %>%
+    dplyr::select(all_of(c(vars, weight_var))) 
+  
+  des <- survey::svydesign(
+    ids = ~1,
+    weights = as.formula(paste0("~", weight_var)),
+    data = df
+  )
+  
+  means <- survey::svymean(
+    as.formula(paste0("~", paste(vars, collapse = " + "))),
+    design = des,
+    na.rm = TRUE
+  )
+  
+  vars_svy <- survey::svyvar(
+    as.formula(paste0("~", paste(vars, collapse = " + "))),
+    design = des,
+    na.rm = TRUE
+  )
+  
+  tibble(
+    Variable = vars,
+    mean = as.numeric(coef(means)),
+    sd   = sqrt(diag(as.matrix(vars_svy))),
+    min  = map_dbl(vars, ~ min(df[[.x]], na.rm = TRUE)),
+    max  = map_dbl(vars, ~ max(df[[.x]], na.rm = TRUE))
+  ) %>%
+    mutate(
+      Variable = dplyr::recode(Variable, !!!var_labels)
+    ) %>%
+    mutate(
+      across(c(mean, sd, min, max), ~ round(.x, 2))
+    )
+}
+
+tab_all <- make_weighted_tab(df_soc, vars, "weight_w2")
+
+tab_dem <- df_soc %>%
+  filter(pidf == "Dem") %>%
+  make_weighted_tab(vars = vars, weight_var = "weight_w2")
+
+tab_rep <- df_soc %>%
+  filter(pidf == "Rep") %>%
+  make_weighted_tab(vars = vars, weight_var = "weight_w2")
+
+tab_ind <- df_soc %>%
+  filter(pidf == "Ind") %>%
+  make_weighted_tab(vars = vars, weight_var = "weight_w2")
+cat("\\begin{table}[H]\n")
+cat("\\centering\n")
+cat("\\normalsize\n")
+cat("\\caption{Weighted Summary Statistics Wave 2}\n")
+cat("\\label{tab:summary_stats}\n")
+# Row 1
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{All Respondents}\\\\[0.5em]\n")
+summary_tab_all <- xtable(tab_all, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_all, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+cat("\\hfill\n")
+
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Democrats}\\\\[0.5em]\n")
+summary_tab_dem <- xtable(tab_dem, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_dem, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+
+cat("\\vspace{2em}\n")
+
+# Row 2
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Republicans}\\\\[0.5em]\n")
+summary_tab_rep <- xtable(tab_rep, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_rep, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+cat("\\hfill\n")
+
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Independents}\\\\[0.5em]\n")
+summary_tab_ind <- xtable(tab_ind, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_ind, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+
+cat("\\end{table}\n")
+
+
+tab_all <- make_weighted_tab(df_soc1, vars, "weight_w3")
+
+tab_dem <- df_soc1 %>%
+  filter(pidf == "Dem") %>%
+  make_weighted_tab(vars = vars, weight_var = "weight_w3")
+
+tab_rep <- df_soc1 %>%
+  filter(pidf == "Rep") %>%
+  make_weighted_tab(vars = vars, weight_var = "weight_w3")
+
+tab_ind <- df_soc1 %>%
+  filter(pidf == "Ind") %>%
+  make_weighted_tab(vars = vars, weight_var = "weight_w3")
+cat("\\begin{table}[H]\n")
+cat("\\centering\n")
+cat("\\normalsize\n")
+cat("\\caption{Weighted Summary Statistics Wave 3}\n")
+cat("\\label{tab:summary_stats}\n")
+# Row 1
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{All Respondents}\\\\[0.5em]\n")
+summary_tab_all <- xtable(tab_all, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_all, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+cat("\\hfill\n")
+
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Democrats}\\\\[0.5em]\n")
+summary_tab_dem <- xtable(tab_dem, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_dem, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+
+cat("\\vspace{2em}\n")
+
+# Row 2
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Republicans}\\\\[0.5em]\n")
+summary_tab_rep <- xtable(tab_rep, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_rep, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+cat("\\hfill\n")
+
+cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+cat("\\centering\n")
+cat("\\textbf{Independents}\\\\[0.5em]\n")
+summary_tab_ind <- xtable(tab_ind, digits = c(0, 0, 2, 2, 2, 2))
+cat("\\resizebox{\\linewidth}{!}{%\n")
+print(summary_tab_ind, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+cat("}\n")
+cat("\\end{minipage}\n")
+
+cat("\\end{table}\n")
+@
+
+
+
+\newpage
+\section{Models}
+
+<<>>=
+
+cat("\\begin{table}[H]\n")
+cat("\\centering\n")
+cat("\\caption{Sociotropic perception and Vote choice (Biden-Trump)}\n")
+cat(stargazer(lm_soc,lm_socD,x0,summary = FALSE,
+covariate.labels = c("Sociotropic perception",
+                     "Independent",
+                     "Republican",
+                     "Partisan response bias",
+                     "Residual response",
+                     "Partisan response bias (Discrete)",
+                     "Residual response (Discrete)",
+                     "Age",
+                     "Black",
+                     "Hispanic",
+                     "Female",
+                     "Independent x Partisan response bias",
+                     "Republican x Partisan response bias",
+                     "Independent x Residual response",
+                     "Republican x Residual response",
+                     "Independent x Partisan response bias (Discrete)",
+                     "Republican x Partisan response bias (Discrete)",
+                     "Independent x Residual response (Discrete)",
+                     "Republican x Residual response (Discrete)",
+                     "Independent x Sociotropic perception",
+                     "Republican x Sociotropic perception",
+                     "Constant"),
+digits=2,             
+dep.var.labels = c("Sociotropic Perception","Vote choice"),  
+type = "latex", 
+font.size = "small",
+no.space=TRUE,
+model.numbers = FALSE,
+rownames = FALSE, 
+float = FALSE), "\n")
+cat("\\end{table}\n")
+
+
+
+cat("\\begin{table}[H]\n")
+cat("\\centering\n")
+cat("\\caption{Sociotropic perception and Vote choice (Harris-Trump)}\n")
+cat(stargazer(m_soc,m_socD,m_vote,summary = FALSE,
+covariate.labels = c("Sociotropic perception",
+                     "Independent",
+                     "Republican",
+                     "Partisan response bias",
+                     "Residual response",
+                     "Partisan response bias (Discrete)",
+                     "Residual response (Discrete)",
+                     "Age",
+                     "Black",
+                     "Hispanic",
+                     "Female",
+                     "Independent x Partisan response bias",
+                     "Republican x Partisan response bias",
+                     "Independent x Residual response",
+                     "Republican x Residual response",
+                     "Independent x Partisan response bias (Discrete)",
+                     "Republican x Partisan response bias (Discrete)",
+                     "Independent x Residual response (Discrete)",
+                     "Republican x Residual response (Discrete)",
+                     "Independent x Sociotropic perception",
+                     "Republican x Sociotropic perception",
+                     "Constant"),
+digits=2,             
+dep.var.labels = c("Sociotropic Perception","Vote choice"),  
+type = "latex", 
+no.space=TRUE,
+font.size = "small",
+model.numbers = FALSE,
+rownames = FALSE, 
+float = FALSE), "\n")
+cat("\\end{table}\n")
+
+@
+
+<<>>=
+
+
+@
+
+
+
+
+\end{document}

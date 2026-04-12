@@ -4,6 +4,7 @@ library(tibble)
 library(purrr)
 library(ggplot2)
 library(scales)
+library(survey)
 source("/Users/mattmettler/Box Sync/Data_2024/EV/w2_data.R")
 
 df0 <- w2 %>%
@@ -504,7 +505,7 @@ hdf_all <- bind_rows(hdf_red, hdf_blue)
 hdf_lab <- hdf_all %>%
   mutate(y_text = y)
 
-# IMPORTANT: use the SAME data object you are plotting
+
 df_line <- out_all_w2 
 
 get_cross_x <- function(y0, df = df_line) {
@@ -669,6 +670,6 @@ bt_d <- out_all_w2 %>%
 bt_d
 
 
-ggarrange(bt,bt_d,ht,ht_d,ncol=2,nrow=2,legend="bottom",common.legend = TRUE)
+#ggarrange(bt,bt_d,ht,ht_d,ncol=2,nrow=2,legend="bottom",common.legend = TRUE)
 
-ggsave("results.png",width=18,height=12,dpi=200)
+#ggsave("results.png",width=18,height=12,dpi=200)

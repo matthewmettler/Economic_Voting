@@ -1,0 +1,621 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{xcolor}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlsng}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hldef}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{makecell}
+\usepackage{setspace}
+\usepackage[margin=1in]{geometry}
+\usepackage{blindtext}
+
+
+\title{Appendix}
+\date{}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+\listoftables
+\listoffigures
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Descriptive Statistics}
+\begin{table}[H]
+\centering
+\normalsize
+\caption{Summary Statistics Wave 2}
+\label{tab:summary_stats}
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{All Respondents}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.20 & 0.63 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.17 & 0.21 & 0.00 & 1.00 \\ 
+  Residual Response & 0.17 & 0.19 & 0.00 & 1.00 \\ 
+  Partisan response bias (Discrete) & 0.25 & 0.36 & 0.00 & 1.00 \\ 
+  Residual response (Discrete) & 0.21 & 0.36 & 0.00 & 1.00 \\ 
+  Age & 54.04 & 15.89 & 19.00 & 90.00 \\ 
+  Black & 0.09 & 0.28 & 0.00 & 1.00 \\ 
+  Hispanic & 0.11 & 0.32 & 0.00 & 1.00 \\ 
+  Female & 0.52 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Democrats}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & 0.31 & 0.42 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.12 & 0.14 & 0.00 & 0.80 \\ 
+  Residual Response & 0.18 & 0.18 & 0.00 & 1.00 \\ 
+  Partisan response bias (Discrete) & 0.17 & 0.30 & 0.00 & 1.00 \\ 
+  Residual response (Discrete) & 0.23 & 0.37 & 0.00 & 1.00 \\ 
+  Age & 52.44 & 16.37 & 19.00 & 90.00 \\ 
+  Black & 0.14 & 0.35 & 0.00 & 1.00 \\ 
+  Hispanic & 0.13 & 0.34 & 0.00 & 1.00 \\ 
+  Female & 0.55 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\vspace{2em}
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Republicans}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.71 & 0.39 & -1.00 & 0.75 \\ 
+  Partisan Response Bias & 0.25 & 0.25 & 0.00 & 1.00 \\ 
+  Residual Response & 0.13 & 0.16 & 0.00 & 1.00 \\ 
+  Partisan response bias (Discrete) & 0.38 & 0.41 & 0.00 & 1.00 \\ 
+  Residual response (Discrete) & 0.13 & 0.30 & 0.00 & 1.00 \\ 
+  Age & 56.70 & 15.32 & 19.00 & 89.00 \\ 
+  Black & 0.03 & 0.16 & 0.00 & 1.00 \\ 
+  Hispanic & 0.08 & 0.27 & 0.00 & 1.00 \\ 
+  Female & 0.50 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Independents}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.31 & 0.53 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.11 & 0.20 & 0.00 & 0.87 \\ 
+  Residual Response & 0.27 & 0.24 & 0.00 & 1.00 \\ 
+  Partisan response bias (Discrete) & 0.16 & 0.32 & 0.00 & 1.00 \\ 
+  Residual response (Discrete) & 0.38 & 0.42 & 0.00 & 1.00 \\ 
+  Age & 51.75 & 15.06 & 20.00 & 90.00 \\ 
+  Black & 0.09 & 0.29 & 0.00 & 1.00 \\ 
+  Hispanic & 0.14 & 0.35 & 0.00 & 1.00 \\ 
+  Female & 0.50 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\end{table}
+
+
+
+\begin{table}[H]
+\centering
+\normalsize
+\caption{Summary Statistics Wave 3}
+\label{tab:summary_stats}
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{All Respondents}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.20 & 0.65 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.18 & 0.22 & 0.00 & 1.00 \\ 
+  Residual Response & 0.16 & 0.18 & 0.00 & 1.00 \\ 
+  Partisan response bias (Discrete) & 0.26 & 0.37 & 0.00 & 1.00 \\ 
+  Residual response (Discrete) & 0.19 & 0.35 & 0.00 & 1.00 \\ 
+  Age & 56.16 & 14.99 & 19.00 & 90.00 \\ 
+  Black & 0.08 & 0.27 & 0.00 & 1.00 \\ 
+  Hispanic & 0.09 & 0.29 & 0.00 & 1.00 \\ 
+  Female & 0.50 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Democrats}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & 0.36 & 0.40 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.12 & 0.14 & 0.00 & 0.80 \\ 
+  Residual Response & 0.17 & 0.17 & 0.00 & 1.00 \\ 
+  Partisan response bias (Discrete) & 0.17 & 0.30 & 0.00 & 1.00 \\ 
+  Residual response (Discrete) & 0.22 & 0.36 & 0.00 & 1.00 \\ 
+  Age & 54.44 & 15.59 & 19.00 & 84.00 \\ 
+  Black & 0.14 & 0.34 & 0.00 & 1.00 \\ 
+  Hispanic & 0.12 & 0.33 & 0.00 & 1.00 \\ 
+  Female & 0.54 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\vspace{2em}
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Republicans}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.71 & 0.39 & -1.00 & 0.75 \\ 
+  Partisan Response Bias & 0.26 & 0.25 & 0.00 & 1.00 \\ 
+  Residual Response & 0.12 & 0.16 & 0.00 & 1.00 \\ 
+  Partisan response bias (Discrete) & 0.38 & 0.41 & 0.00 & 1.00 \\ 
+  Residual response (Discrete) & 0.12 & 0.28 & 0.00 & 1.00 \\ 
+  Age & 58.29 & 14.57 & 19.00 & 87.00 \\ 
+  Black & 0.02 & 0.15 & 0.00 & 1.00 \\ 
+  Hispanic & 0.06 & 0.25 & 0.00 & 1.00 \\ 
+  Female & 0.47 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Independents}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.32 & 0.54 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.14 & 0.21 & 0.00 & 0.87 \\ 
+  Residual Response & 0.24 & 0.23 & 0.00 & 1.00 \\ 
+  Partisan response bias (Discrete) & 0.18 & 0.34 & 0.00 & 1.00 \\ 
+  Residual response (Discrete) & 0.34 & 0.41 & 0.00 & 1.00 \\ 
+  Age & 55.07 & 13.79 & 20.00 & 90.00 \\ 
+  Black & 0.08 & 0.27 & 0.00 & 1.00 \\ 
+  Hispanic & 0.10 & 0.30 & 0.00 & 1.00 \\ 
+  Female & 0.47 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\end{table}
+
+
+
+\begin{table}[H]
+\centering
+\normalsize
+\caption{Weighted Summary Statistics Wave 2}
+\label{tab:summary_stats}
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{All Respondents}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.20 & 0.60 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.16 & 0.21 & 0.00 & 1.00 \\ 
+  Residual Response & 0.19 & 0.20 & 0.00 & 1.00 \\ 
+  Partisan Response Bias (Discrete) & 0.25 & 0.37 & 0.00 & 1.00 \\ 
+  Residual Response (Discrete) & 0.25 & 0.39 & 0.00 & 1.00 \\ 
+  Age & 49.05 & 17.26 & 19.00 & 90.00 \\ 
+  Black & 0.12 & 0.32 & 0.00 & 1.00 \\ 
+  Hispanic & 0.19 & 0.39 & 0.00 & 1.00 \\ 
+  Female & 0.51 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Democrats}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & 0.24 & 0.42 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.12 & 0.14 & 0.00 & 0.80 \\ 
+  Residual Response & 0.20 & 0.19 & 0.00 & 1.00 \\ 
+  Partisan Response Bias (Discrete) & 0.18 & 0.31 & 0.00 & 1.00 \\ 
+  Residual Response (Discrete) & 0.26 & 0.39 & 0.00 & 1.00 \\ 
+  Age & 46.95 & 17.33 & 19.00 & 90.00 \\ 
+  Black & 0.18 & 0.39 & 0.00 & 1.00 \\ 
+  Hispanic & 0.19 & 0.39 & 0.00 & 1.00 \\ 
+  Female & 0.50 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\vspace{2em}
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Republicans}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.67 & 0.41 & -1.00 & 0.75 \\ 
+  Partisan Response Bias & 0.25 & 0.25 & 0.00 & 1.00 \\ 
+  Residual Response & 0.14 & 0.16 & 0.00 & 1.00 \\ 
+  Partisan Response Bias (Discrete) & 0.39 & 0.41 & 0.00 & 1.00 \\ 
+  Residual Response (Discrete) & 0.16 & 0.33 & 0.00 & 1.00 \\ 
+  Age & 52.23 & 17.09 & 19.00 & 89.00 \\ 
+  Black & 0.03 & 0.17 & 0.00 & 1.00 \\ 
+  Hispanic & 0.14 & 0.35 & 0.00 & 1.00 \\ 
+  Female & 0.50 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Independents}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.31 & 0.48 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.10 & 0.19 & 0.00 & 0.87 \\ 
+  Residual Response & 0.31 & 0.24 & 0.00 & 1.00 \\ 
+  Partisan Response Bias (Discrete) & 0.14 & 0.31 & 0.00 & 1.00 \\ 
+  Residual Response (Discrete) & 0.43 & 0.43 & 0.00 & 1.00 \\ 
+  Age & 47.44 & 16.41 & 20.00 & 90.00 \\ 
+  Black & 0.14 & 0.35 & 0.00 & 1.00 \\ 
+  Hispanic & 0.27 & 0.45 & 0.00 & 1.00 \\ 
+  Female & 0.55 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\end{table}
+\begin{table}[H]
+\centering
+\normalsize
+\caption{Weighted Summary Statistics Wave 3}
+\label{tab:summary_stats}
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{All Respondents}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.17 & 0.60 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.17 & 0.21 & 0.00 & 1.00 \\ 
+  Residual Response & 0.19 & 0.20 & 0.00 & 1.00 \\ 
+  Partisan Response Bias (Discrete) & 0.26 & 0.37 & 0.00 & 1.00 \\ 
+  Residual Response (Discrete) & 0.23 & 0.38 & 0.00 & 1.00 \\ 
+  Age & 48.32 & 17.16 & 19.00 & 90.00 \\ 
+  Black & 0.12 & 0.33 & 0.00 & 1.00 \\ 
+  Hispanic & 0.15 & 0.36 & 0.00 & 1.00 \\ 
+  Female & 0.51 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Democrats}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & 0.28 & 0.40 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.12 & 0.15 & 0.00 & 0.80 \\ 
+  Residual Response & 0.19 & 0.17 & 0.00 & 1.00 \\ 
+  Partisan Response Bias (Discrete) & 0.19 & 0.31 & 0.00 & 1.00 \\ 
+  Residual Response (Discrete) & 0.24 & 0.37 & 0.00 & 1.00 \\ 
+  Age & 45.79 & 16.86 & 19.00 & 84.00 \\ 
+  Black & 0.20 & 0.40 & 0.00 & 1.00 \\ 
+  Hispanic & 0.18 & 0.38 & 0.00 & 1.00 \\ 
+  Female & 0.50 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\vspace{2em}
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Republicans}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.65 & 0.42 & -1.00 & 0.75 \\ 
+  Partisan Response Bias & 0.25 & 0.24 & 0.00 & 1.00 \\ 
+  Residual Response & 0.13 & 0.16 & 0.00 & 1.00 \\ 
+  Partisan Response Bias (Discrete) & 0.39 & 0.42 & 0.00 & 1.00 \\ 
+  Residual Response (Discrete) & 0.13 & 0.30 & 0.00 & 1.00 \\ 
+  Age & 50.79 & 17.81 & 19.00 & 87.00 \\ 
+  Black & 0.03 & 0.18 & 0.00 & 1.00 \\ 
+  Hispanic & 0.10 & 0.29 & 0.00 & 1.00 \\ 
+  Female & 0.52 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\centering
+\textbf{Independents}\\[0.5em]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrr}
+  \hline
+Variable & mean & sd & min & max \\ 
+  \hline
+Sociotropic Perception & -0.31 & 0.51 & -1.00 & 1.00 \\ 
+  Partisan Response Bias & 0.11 & 0.19 & 0.00 & 0.87 \\ 
+  Residual Response & 0.32 & 0.27 & 0.00 & 1.00 \\ 
+  Partisan Response Bias (Discrete) & 0.14 & 0.31 & 0.00 & 1.00 \\ 
+  Residual Response (Discrete) & 0.46 & 0.45 & 0.00 & 1.00 \\ 
+  Age & 49.66 & 15.42 & 20.00 & 90.00 \\ 
+  Black & 0.11 & 0.32 & 0.00 & 1.00 \\ 
+  Hispanic & 0.22 & 0.42 & 0.00 & 1.00 \\ 
+  Female & 0.51 & 0.50 & 0.00 & 1.00 \\ 
+   \hline
+\end{tabular}
+}
+\end{minipage}
+\end{table}
+
+
+
+
+\newpage
+\section{Models}
+
+\begin{table}[H]
+\centering
+\caption{Sociotropic perception and Vote choice (Biden-Trump)}
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sun, Apr 12, 2026 - 16:51:22
+\begingroup 
+\small 
+\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{3}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-4} 
+\\[-1.8ex] & \multicolumn{2}{c}{Sociotropic Perception} & Vote choice \\ 
+\\[-1.8ex] & \multicolumn{2}{c}{\textit{survey-weighted}} & \textit{survey-weighted} \\ 
+ & \multicolumn{2}{c}{\textit{normal}} & \textit{logistic} \\ 
+\hline \\[-1.8ex] 
+ Sociotropic perception &  &  & 3.37$^{***}$ \\ 
+  &  &  & (0.96) \\ 
+  Independent & $-$0.30$^{***}$ & $-$0.42$^{***}$ & $-$1.85$^{***}$ \\ 
+  & (0.08) & (0.06) & (0.62) \\ 
+  Republican & $-$0.98$^{***}$ & $-$0.93$^{***}$ & $-$4.42$^{***}$ \\ 
+  & (0.06) & (0.04) & (0.48) \\ 
+  Partisan response bias & 0.30$^{*}$ &  &  \\ 
+  & (0.17) &  &  \\ 
+  Residual response & $-$0.43$^{***}$ &  &  \\ 
+  & (0.14) &  &  \\ 
+  Partisan response bias (Discrete) &  & 0.13$^{*}$ &  \\ 
+  &  & (0.07) &  \\ 
+  Residual response (Discrete) &  & $-$0.17$^{**}$ &  \\ 
+  &  & (0.07) &  \\ 
+  Age & 0.0001 & 0.001 & 0.01 \\ 
+  & (0.001) & (0.001) & (0.01) \\ 
+  Black & 0.04 & 0.04 & $-$1.17$^{*}$ \\ 
+  & (0.04) & (0.04) & (0.66) \\ 
+  Hispanic & $-$0.05 & $-$0.04 & $-$0.41 \\ 
+  & (0.05) & (0.05) & (0.49) \\ 
+  Female & $-$0.01 & $-$0.01 & $-$0.12 \\ 
+  & (0.03) & (0.03) & (0.38) \\ 
+  Independent x Partisan response bias & $-$1.19$^{***}$ &  &  \\ 
+  & (0.29) &  &  \\ 
+  Republican x Partisan response bias & $-$0.49$^{**}$ &  &  \\ 
+  & (0.19) &  &  \\ 
+  Independent x Residual response & $-$0.26 &  &  \\ 
+  & (0.22) &  &  \\ 
+  Republican x Residual response & 0.90$^{***}$ &  &  \\ 
+  & (0.19) &  &  \\ 
+  Independent x Partisan response bias (Discrete) &  & $-$0.48$^{***}$ &  \\ 
+  &  & (0.15) &  \\ 
+  Republican x Partisan response bias (Discrete) &  & $-$0.22$^{**}$ &  \\ 
+  &  & (0.09) &  \\ 
+  Independent x Residual response (Discrete) &  & $-$0.06 &  \\ 
+  &  & (0.12) &  \\ 
+  Republican x Residual response (Discrete) &  & 0.38$^{***}$ &  \\ 
+  &  & (0.10) &  \\ 
+  Independent x Sociotropic perception &  &  & 2.79$^{**}$ \\ 
+  &  &  & (1.38) \\ 
+  Republican x Sociotropic perception &  &  & 1.56 \\ 
+  &  &  & (1.35) \\ 
+  Constant & 0.29$^{***}$ & 0.24$^{***}$ & 2.81$^{***}$ \\ 
+  & (0.07) & (0.06) & (0.78) \\ 
+ \hline \\[-1.8ex] 
+Observations & 1,473 & 1,473 & 1,233 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\endgroup 
+ % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com % Date and time: Sun, Apr 12, 2026 - 16:51:23 \begingroup  \small  \begin{tabular}{@{\extracolsep{5pt}}lccc}  \\[-1.8ex]\hline  \hline \\[-1.8ex]   & \multicolumn{3}{c}{\textit{Dependent variable:}} \\  \cline{2-4}  \\[-1.8ex] & \multicolumn{2}{c}{Sociotropic Perception} & Vote choice \\  \\[-1.8ex] & \multicolumn{2}{c}{\textit{survey-weighted}} & \textit{survey-weighted} \\   & \multicolumn{2}{c}{\textit{normal}} & \textit{logistic} \\  \hline \\[-1.8ex]   Sociotropic perception &  &  & 3.37$^{***}$ \\    &  &  & (0.96) \\    Independent & $-$0.30$^{***}$ & $-$0.42$^{***}$ & $-$1.85$^{***}$ \\    & (0.08) & (0.06) & (0.62) \\    Republican & $-$0.98$^{***}$ & $-$0.93$^{***}$ & $-$4.42$^{***}$ \\    & (0.06) & (0.04) & (0.48) \\    Partisan response bias & 0.30$^{*}$ &  &  \\    & (0.17) &  &  \\    Residual response & $-$0.43$^{***}$ &  &  \\    & (0.14) &  &  \\    Partisan response bias (Discrete) &  & 0.13$^{*}$ &  \\    &  & (0.07) &  \\    Residual response (Discrete) &  & $-$0.17$^{**}$ &  \\    &  & (0.07) &  \\    Age & 0.0001 & 0.001 & 0.01 \\    & (0.001) & (0.001) & (0.01) \\    Black & 0.04 & 0.04 & $-$1.17$^{*}$ \\    & (0.04) & (0.04) & (0.66) \\    Hispanic & $-$0.05 & $-$0.04 & $-$0.41 \\    & (0.05) & (0.05) & (0.49) \\    Female & $-$0.01 & $-$0.01 & $-$0.12 \\    & (0.03) & (0.03) & (0.38) \\    Independent x Partisan response bias & $-$1.19$^{***}$ &  &  \\    & (0.29) &  &  \\    Republican x Partisan response bias & $-$0.49$^{**}$ &  &  \\    & (0.19) &  &  \\    Independent x Residual response & $-$0.26 &  &  \\    & (0.22) &  &  \\    Republican x Residual response & 0.90$^{***}$ &  &  \\    & (0.19) &  &  \\    Independent x Partisan response bias (Discrete) &  & $-$0.48$^{***}$ &  \\    &  & (0.15) &  \\    Republican x Partisan response bias (Discrete) &  & $-$0.22$^{**}$ &  \\    &  & (0.09) &  \\    Independent x Residual response (Discrete) &  & $-$0.06 &  \\    &  & (0.12) &  \\    Republican x Residual response (Discrete) &  & 0.38$^{***}$ &  \\    &  & (0.10) &  \\    Independent x Sociotropic perception &  &  & 2.79$^{**}$ \\    &  &  & (1.38) \\    Republican x Sociotropic perception &  &  & 1.56 \\    &  &  & (1.35) \\    Constant & 0.29$^{***}$ & 0.24$^{***}$ & 2.81$^{***}$ \\    & (0.07) & (0.06) & (0.78) \\   \hline \\[-1.8ex]  Observations & 1,473 & 1,473 & 1,233 \\  \hline  \hline \\[-1.8ex]  \textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\  \end{tabular}  \endgroup  
+\end{table}
+\begin{table}[H]
+\centering
+\caption{Sociotropic perception and Vote choice (Harris-Trump)}
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sun, Apr 12, 2026 - 16:51:23
+\begingroup 
+\small 
+\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{3}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-4} 
+\\[-1.8ex] & \multicolumn{2}{c}{Sociotropic Perception} & Vote choice \\ 
+\\[-1.8ex] & \multicolumn{2}{c}{\textit{survey-weighted}} & \textit{survey-weighted} \\ 
+ & \multicolumn{2}{c}{\textit{normal}} & \textit{logistic} \\ 
+\hline \\[-1.8ex] 
+ Sociotropic perception &  &  & 1.21 \\ 
+  &  &  & (1.66) \\ 
+  Independent & $-$0.38$^{***}$ & $-$0.46$^{***}$ & $-$2.59$^{***}$ \\ 
+  & (0.11) & (0.08) & (0.70) \\ 
+  Republican & $-$1.03$^{***}$ & $-$0.97$^{***}$ & $-$5.05$^{***}$ \\ 
+  & (0.08) & (0.05) & (0.65) \\ 
+  Partisan response bias & 0.27 &  &  \\ 
+  & (0.24) &  &  \\ 
+  Residual response & $-$0.40$^{*}$ &  &  \\ 
+  & (0.21) &  &  \\ 
+  Partisan response bias (Discrete) &  & 0.12 &  \\ 
+  &  & (0.09) &  \\ 
+  Residual response (Discrete) &  & $-$0.12$^{*}$ &  \\ 
+  &  & (0.07) &  \\ 
+  Age & $-$0.0002 & $-$0.0001 & 0.01 \\ 
+  & (0.001) & (0.001) & (0.02) \\ 
+  Black & $-$0.01 & $-$0.004 & $-$1.32 \\ 
+  & (0.06) & (0.06) & (0.97) \\ 
+  Hispanic & $-$0.06 & $-$0.07 & $-$0.41 \\ 
+  & (0.07) & (0.07) & (0.57) \\ 
+  Female & 0.0000 & $-$0.002 & 0.38 \\ 
+  & (0.04) & (0.04) & (0.54) \\ 
+  Independent x Partisan response bias & $-$0.88$^{**}$ &  &  \\ 
+  & (0.36) &  &  \\ 
+  Republican x Partisan response bias & $-$0.36 &  &  \\ 
+  & (0.27) &  &  \\ 
+  Independent x Residual response & $-$0.16 &  &  \\ 
+  & (0.32) &  &  \\ 
+  Republican x Residual response & 0.96$^{***}$ &  &  \\ 
+  & (0.27) &  &  \\ 
+  Independent x Partisan response bias (Discrete) &  & $-$0.33$^{*}$ &  \\ 
+  &  & (0.17) &  \\ 
+  Republican x Partisan response bias (Discrete) &  & $-$0.13 &  \\ 
+  &  & (0.12) &  \\ 
+  Independent x Residual response (Discrete) &  & $-$0.10 &  \\ 
+  &  & (0.15) &  \\ 
+  Republican x Residual response (Discrete) &  & 0.37$^{***}$ &  \\ 
+  &  & (0.12) &  \\ 
+  Independent x Sociotropic perception &  &  & 5.20$^{**}$ \\ 
+  &  &  & (2.26) \\ 
+  Republican x Sociotropic perception &  &  & 2.15 \\ 
+  &  &  & (1.98) \\ 
+  Constant & 0.34$^{***}$ & 0.30$^{***}$ & 3.07$^{***}$ \\ 
+  & (0.09) & (0.07) & (1.13) \\ 
+ \hline \\[-1.8ex] 
+Observations & 1,034 & 1,034 & 932 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\endgroup 
+ % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com % Date and time: Sun, Apr 12, 2026 - 16:51:23 \begingroup  \small  \begin{tabular}{@{\extracolsep{5pt}}lccc}  \\[-1.8ex]\hline  \hline \\[-1.8ex]   & \multicolumn{3}{c}{\textit{Dependent variable:}} \\  \cline{2-4}  \\[-1.8ex] & \multicolumn{2}{c}{Sociotropic Perception} & Vote choice \\  \\[-1.8ex] & \multicolumn{2}{c}{\textit{survey-weighted}} & \textit{survey-weighted} \\   & \multicolumn{2}{c}{\textit{normal}} & \textit{logistic} \\  \hline \\[-1.8ex]   Sociotropic perception &  &  & 1.21 \\    &  &  & (1.66) \\    Independent & $-$0.38$^{***}$ & $-$0.46$^{***}$ & $-$2.59$^{***}$ \\    & (0.11) & (0.08) & (0.70) \\    Republican & $-$1.03$^{***}$ & $-$0.97$^{***}$ & $-$5.05$^{***}$ \\    & (0.08) & (0.05) & (0.65) \\    Partisan response bias & 0.27 &  &  \\    & (0.24) &  &  \\    Residual response & $-$0.40$^{*}$ &  &  \\    & (0.21) &  &  \\    Partisan response bias (Discrete) &  & 0.12 &  \\    &  & (0.09) &  \\    Residual response (Discrete) &  & $-$0.12$^{*}$ &  \\    &  & (0.07) &  \\    Age & $-$0.0002 & $-$0.0001 & 0.01 \\    & (0.001) & (0.001) & (0.02) \\    Black & $-$0.01 & $-$0.004 & $-$1.32 \\    & (0.06) & (0.06) & (0.97) \\    Hispanic & $-$0.06 & $-$0.07 & $-$0.41 \\    & (0.07) & (0.07) & (0.57) \\    Female & 0.0000 & $-$0.002 & 0.38 \\    & (0.04) & (0.04) & (0.54) \\    Independent x Partisan response bias & $-$0.88$^{**}$ &  &  \\    & (0.36) &  &  \\    Republican x Partisan response bias & $-$0.36 &  &  \\    & (0.27) &  &  \\    Independent x Residual response & $-$0.16 &  &  \\    & (0.32) &  &  \\    Republican x Residual response & 0.96$^{***}$ &  &  \\    & (0.27) &  &  \\    Independent x Partisan response bias (Discrete) &  & $-$0.33$^{*}$ &  \\    &  & (0.17) &  \\    Republican x Partisan response bias (Discrete) &  & $-$0.13 &  \\    &  & (0.12) &  \\    Independent x Residual response (Discrete) &  & $-$0.10 &  \\    &  & (0.15) &  \\    Republican x Residual response (Discrete) &  & 0.37$^{***}$ &  \\    &  & (0.12) &  \\    Independent x Sociotropic perception &  &  & 5.20$^{**}$ \\    &  &  & (2.26) \\    Republican x Sociotropic perception &  &  & 2.15 \\    &  &  & (1.98) \\    Constant & 0.34$^{***}$ & 0.30$^{***}$ & 3.07$^{***}$ \\    & (0.09) & (0.07) & (1.13) \\   \hline \\[-1.8ex]  Observations & 1,034 & 1,034 & 932 \\  \hline  \hline \\[-1.8ex]  \textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\  \end{tabular}  \endgroup  
+\end{table}
+
+
+
+
+
+
+
+\end{document}
