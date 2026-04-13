@@ -28,7 +28,25 @@
 
 \section{Survey Questions}
 
+\subsection{Sociotropic Perception}
+\begin{enumerate}
+\item Think about the country as a whole. Would you say that the national economy is much better off, somewhat better off, somewhat worse off, much worse off, or about the same financially since Joe Biden became president?
 
+
+\item Think about the country as a whole. Would you say that the national economy became much better off, somewhat better off, somewhat worse off, much worse off, or stayed about the same financially when Donald Trump was president?
+\end{enumerate}
+
+\subsection{Economic Facts}
+\begin{enumerate}
+
+\item When Donald Trump left office in January 2021, the national unemployment rate was 6.3 percent. What was the unemployment rate when Donald Trump took office in January 2017? (the correct response is 4.7 percent).
+\item When Joe Biden took office in January 2021, the national unemployment rate was 6.3 percent. What is your best estimate of the unemployment rate today? (the correct response is 3.9 percent).
+\item When Donald Trump left office in January 2021, the national inflation 
+rate was 1.4\%. What is your best estimate of the national inflation rate when Donald 
+Trump took office in January 2017? (the correct response is 2.5 percent).
+\item When Joe Biden took office in January 2021, the national inflation rate 
+was 1.4\%. What is your best estimate of the national inflation rate today? (the correct response is 3.4 percent).
+\end{enumerate}
 
 \subsection{Affective polarization feeling thermometers}
 \begin{enumerate}
@@ -75,7 +93,70 @@ some old Tweets that some people found to be
 offensive?
 \end{enumerate}
 
+\subsection{Survey weights}
 
+Within each survey respondents were  were weighted to a sampling frame using propensity scores. The sampling
+frame is a politically representative "modeled frame" of US adults, based upon the
+American Community Survey (ACS) public use microdata file, public voter file
+records, the 2020 Current Population Survey (CPS) Voting and Registration
+supplements, the 2020 National Election Pool (NEP) exit poll, and the 2020 CES
+surveys, including demographics and 2020 presidential vote. The respondents and the
+frame were combined and a logistic regression was estimated for inclusion in the
+frame. The propensity score function included age, gender, race/ethnicity, years of
+education, and region. The propensity scores were grouped into deciles of the
+estimated propensity score in the frame and post-stratified according to these
+deciles.The weights were then post-stratified on 2020 presidential vote choice as well as a
+four-way stratification of gender, age (4-categories), race (4-categories), and
+education (4-categories), to produce the final weight. Because we 
+subset to self declared partisan voters in each survey results are demonstrated using both rescaled, (Mean=1 & sum to subset N), and unchanged survey weights. 
+
+<<>>=
+source("/Users/mattmettler/Box Sync/Data_2024/EV/w3_data.R")
+#VOTE2_w2 < 3
+#
+#x<-w3 %>%
+#  filter( ) %>%
+#  dplyr::select(weight_w2,weight_w3) %>%
+#  psych::describe(fast = TRUE) %>%
+#  tibble::rownames_to_column("Variable") %>%
+#  dplyr::select(Variable, mean, sd, min, max) %>%
+#  mutate(
+#    Variable = recode(
+#      Variable,
+#      weight_w2 = "Wave 2",
+#      weight_w3 = "Wave 3"))
+#
+#x1<-w2 %>%
+#  filter(VOTE2_w2 < 3 ) %>%
+#  dplyr::select(weight_w2) %>%
+#  psych::describe(fast = TRUE) %>%
+#  tibble::rownames_to_column("Variable") %>%
+#  dplyr::select(Variable, mean, sd, min, max) %>%
+#  mutate(
+#    Variable = recode(
+#      Variable,
+#      weight_w2 = "Wave 2"))
+#
+#
+#cat("\\begin{table}[H]\n")
+#cat("\\centering\n")
+#cat("\\normalsize\n")
+#cat("\\caption{Survey weights}\n")
+#cat("\\label{tab:summary_stats}\n")
+## Row 1
+#cat("\\begin{minipage}[t]{0.48\\linewidth}\n")
+#cat("\\centering\n")
+#cat("\\textbf{All Respondents}\\\\[0.5em]\n")
+#summary_tab_all <- xtable(tab_all, digits = c(0, 0, 2, 2, 2, 2))
+#cat("\\resizebox{\\linewidth}{!}{%\n")
+#print(summary_tab_all, include.rownames = FALSE, floating = FALSE, comment = FALSE)
+#cat("}\n")
+#
+#cat("\\hfill\n")
+#cat("\\end{table}[H]\n")
+
+
+@
 
 
 
@@ -103,7 +184,7 @@ library(kableExtra)
 library(xtable)
 library(survey)
 
-source("/Users/mattmettler/Box Sync/Data_2024/EV/w3_data.R")
+
 df0 <- w2 %>%
   mutate(
     pidf = case_when(
