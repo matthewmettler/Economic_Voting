@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.22)  12 APR 2026 16:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.22)  13 APR 2026 16:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -240,18 +240,18 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 LaTeX Warning: No \author given.
 
-(./appendix.toc)
+(./appendix.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 2.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 2.
+)
 \tf@toc=\write3
 \openout3 = `appendix.toc'.
 
 [1
 
-{/Users/mattmettler/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./appendix.lot
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 1.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 1.
-)
+{/Users/mattmettler/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./appendix.lot)
 \tf@lot=\write4
 \openout4 = `appendix.lot'.
 
@@ -259,10 +259,27 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \tf@lof=\write5
 \openout5 = `appendix.lof'.
 
-[2] [3] [4]
+[2] [3] [4] [5]
+<wave2_sociotropic_histograms.pdf, id=22, 722.7pt x 1011.78pt>
+File: wave2_sociotropic_histograms.pdf Graphic file (type pdf)
+<use wave2_sociotropic_histograms.pdf>
+Package pdftex.def Info: wave2_sociotropic_histograms.pdf  used on input line 608.
+(pdftex.def)             Requested size: 399.29463pt x 559.01263pt.
+[6]
+<wave3_sociotropic_histograms.pdf, id=26, 722.7pt x 1011.78pt>
+File: wave3_sociotropic_histograms.pdf Graphic file (type pdf)
+<use wave3_sociotropic_histograms.pdf>
+Package pdftex.def Info: wave3_sociotropic_histograms.pdf  used on input line 614.
+(pdftex.def)             Requested size: 399.29463pt x 559.01263pt.
+[7 <./wave2_sociotropic_histograms.pdf>] [8 <./wave3_sociotropic_histograms.pdf>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 482.
-[5] [6] (./appendix.aux)
+(Font)              <9> on input line 666.
+[9] [10] [11] [12] [13]
+Overfull \hbox (21.34293pt too wide) in paragraph at lines 1018--1070
+ [][] 
+ []
+
+[14] [15] (./appendix.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
@@ -272,18 +289,18 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2994 strings out of 469514
- 48281 string characters out of 5468562
- 523598 words of memory out of 5000000
- 31613 multiletter control sequences out of 15000+600000
- 632926 words of font info for 57 fonts, out of 8000000 for 9000
+ 3019 strings out of 469514
+ 49087 string characters out of 5468562
+ 533642 words of memory out of 5000000
+ 31637 multiletter control sequences out of 15000+600000
+ 633579 words of font info for 59 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 57i,12n,65p,2672b,330s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on appendix.pdf (6 pages, 118516 bytes).
+ 57i,12n,65p,2681b,330s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></Users/mattmettler/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb>
+Output written on appendix.pdf (15 pages, 192367 bytes).
 PDF statistics:
- 68 PDF objects out of 1000 (max. 8388607)
- 41 compressed objects within 1 object stream
+ 132 PDF objects out of 1000 (max. 8388607)
+ 84 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
