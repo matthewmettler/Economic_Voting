@@ -45,7 +45,10 @@ df_vote <- df_soc %>%
     VOTE2_w2 < 3,
     complete.cases(vbiden, soc_bt, pidf, age, black, hispanic, female, weight_w2)
   )
-
+#df_vote <-df_vote %>%
+#  mutate(
+#    weight_w2 = weight_w2 / mean(weight_w2, na.rm = TRUE))
+#
 des_w2_vote <- survey::svydesign(
   ids = ~1,
   weights = ~weight_w2,
