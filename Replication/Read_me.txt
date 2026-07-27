@@ -3,7 +3,7 @@ File Describes workflow for "There but for Misinformation:
 The Impact of Economic Information and Misinformation on Voting 
 in the 2024 U.S. Presidential Election"
 
-# Data available at: 
+# Data not currently available for replication
 
 # Main document replication
 # 1.1.R - Figure 1: Ternary plot  
@@ -13,7 +13,6 @@ in the 2024 U.S. Presidential Election"
 # 1.5.R - Figure 5: Log-odds plot of Sociotropic perception and vote choice
 # 1.6.R - Figure 6: Impact of economic information on the 2024 U.S. presidential election
 
-# Appendix 
-# A.1.R
+
 
 
